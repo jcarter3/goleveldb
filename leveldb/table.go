@@ -12,12 +12,12 @@ import (
 	"sort"
 	"sync/atomic"
 
-	"github.com/syndtr/goleveldb/leveldb/cache"
-	"github.com/syndtr/goleveldb/leveldb/iterator"
-	"github.com/syndtr/goleveldb/leveldb/opt"
-	"github.com/syndtr/goleveldb/leveldb/storage"
-	"github.com/syndtr/goleveldb/leveldb/table"
-	"github.com/syndtr/goleveldb/leveldb/util"
+	"github.com/jcarter3/goleveldb/leveldb/cache"
+	"github.com/jcarter3/goleveldb/leveldb/iterator"
+	"github.com/jcarter3/goleveldb/leveldb/opt"
+	"github.com/jcarter3/goleveldb/leveldb/storage"
+	"github.com/jcarter3/goleveldb/leveldb/table"
+	"github.com/jcarter3/goleveldb/leveldb/util"
 )
 
 // tFile holds basic information about a table.

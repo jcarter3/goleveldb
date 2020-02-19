@@ -11,9 +11,9 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/syndtr/goleveldb/leveldb/errors"
-	"github.com/syndtr/goleveldb/leveldb/opt"
-	"github.com/syndtr/goleveldb/leveldb/storage"
+	"github.com/jcarter3/goleveldb/leveldb/errors"
+	"github.com/jcarter3/goleveldb/leveldb/opt"
+	"github.com/jcarter3/goleveldb/leveldb/storage"
 )
 
 var (
