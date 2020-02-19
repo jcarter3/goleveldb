@@ -1,11 +1,13 @@
 This is an implementation of the [LevelDB key/value database](http:code.google.com/p/leveldb) in the [Go programming language](http:golang.org).
 
+This fork adds zlib compression support in order to read Mojang's MCPE leveldb format.
+
 [![Build Status](https://travis-ci.org/syndtr/goleveldb.png?branch=master)](https://travis-ci.org/syndtr/goleveldb)
 
 Installation
 -----------
 
-	go get github.com/syndtr/goleveldb/leveldb
+	go get github.com/jcarter3/goleveldb/leveldb
 
 Requirements
 -----------

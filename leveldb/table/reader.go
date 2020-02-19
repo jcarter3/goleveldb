@@ -7,9 +7,12 @@
 package table
 
 import (
+	"bytes"
+	"compress/flate"
 	"encoding/binary"
 	"fmt"
 	"io"
+	"log"
 	"sort"
 	"strings"
 	"sync"
@@ -592,6 +595,46 @@ func (r *Reader) readRawBlock(bh blockHandle, verifyChecksum bool) ([]byte, erro
 			return nil, r.newErrCorruptedBH(bh, err.Error())
 		}
 		data = decData
+	case blockTypeZlibCompression:
+		//fmt.Printf("data size: %d, offset: %d\n", bh.length, bh.offset)
+		//fmt.Printf("string:\n%v\n", string(data[:bh.length]))
+		//fmt.Printf("bytes:\n%v\n", data[:bh.length])
+		br := bytes.NewReader(data[:bh.length])
+
+		decData := new(bytes.Buffer)
+		f := flate.NewReader(br)
+		buffer := make([]byte, 1024, 1024)
+		for {
+			k, err := f.Read(buffer)
+			//fmt.Printf("k: %d, bytes:\n%v\n", k, bb)
+			if err != io.EOF && err != nil {
+				log.Fatalf("failed to read byte buffer... %v\n", err)
+			}
+			decData.Write(buffer[:k])
+			if err == io.EOF {
+				break
+			}
+		}
+		data = decData.Bytes()
+		//zr, err := zlib.NewReader(br)
+		//if err != nil {
+		//	log.Fatalf("failed to open new zlib reader: %v\n", err)
+		//}
+		//derp := make([]byte, 0)
+		//for {
+		//	bb := make([]byte, 0, 10)
+		//	i, err := zr.Read(bb)
+		//	if err != nil {
+		//		log.Fatalf("failed to read byte buffer... %v\n", err)
+		//	}
+		//	if i > 0 {
+		//		derp = append(derp, bb[:i]...)
+		//	} else {
+		//		fmt.Printf("read %d bytes...\n", i)
+		//		break
+		//	}
+		//}
+
 	default:
 		r.bpool.Put(data)
 		return nil, r.newErrCorruptedBH(bh, fmt.Sprintf("unknown compression type %#x", data[bh.length]))
